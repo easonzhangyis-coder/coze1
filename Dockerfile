@@ -4,9 +4,12 @@ FROM python:3.12-slim
 # 设置工作目录
 WORKDIR /app
 
-# 安装系统依赖：部分包（如 cryptography、psycopg、opencv）需编译或系统库
+# 安装系统依赖：部分包（如 cryptography、psycopg、opencv、dbus-python）需编译或系统库
+# - gcc / g++: 编译 C 扩展
+# - libpq-dev: PostgreSQL 客户端开发库
+# - pkg-config, libdbus-1-dev, libglib2.0-dev: 构建 dbus-python 所需
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc g++ libpq-dev \
+    gcc g++ libpq-dev pkg-config libdbus-1-dev libglib2.0-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # 复制依赖文件
