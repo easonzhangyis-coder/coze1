@@ -13,9 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 
 # 升级 pip/setuptools，减少元数据与构建错误；使用国内镜像加速并提高成功率
-RUN pip install --no-cache-dir -U pip setuptools wheel \
-    && pip install --no-cache-dir -r requirements.txt \
-    -i https://pypi.tuna.tsinghua.edu.cn/simple --trusted-host pypi.tuna.tsinghua.edu.cn
+RUN pip install --no-cache-dir -U pip setuptools wheel
+RUN pip install --no-cache-dir -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple --trusted-host pypi.tuna.tsinghua.edu.cn
 
 # 复制项目代码（.dockerignore 会排除不需要的文件）
 COPY config ./config
