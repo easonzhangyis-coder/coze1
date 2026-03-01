@@ -7,9 +7,9 @@ WORKDIR /app
 # 安装系统依赖：部分包（如 cryptography、psycopg、opencv、dbus-python）需编译或系统库
 # - gcc / g++: 编译 C 扩展
 # - libpq-dev: PostgreSQL 客户端开发库
-# - pkg-config, libdbus-1-dev, libglib2.0-dev: 构建 dbus-python 所需
+# - pkg-config, libdbus-1-dev, libglib2.0-dev, dbus: 构建 dbus-python 所需（提供 dbus-run-session 等）
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc g++ libpq-dev pkg-config libdbus-1-dev libglib2.0-dev \
+    gcc g++ libpq-dev pkg-config libdbus-1-dev libglib2.0-dev dbus \
     && rm -rf /var/lib/apt/lists/*
 
 # 复制依赖文件
