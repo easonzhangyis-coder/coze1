@@ -1,0 +1,46 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.venv
+venv
+env
+*.egg-info
+.eggs
+
+# 本地/敏感
+.env
+.env.*
+!.env.example
+
+# 文档与脚本（部署不需要，按需保留）
+# README.md
+# docs/
+*.md
+!README.md
+
+# 测试与开发
+.pytest_cache
+.coverage
+htmlcov
+.tox
+.mypy_cache
+tmp
+*.log
+
+# IDE
+.idea
+.vscode
+.cursor
+
+# 其他
+node_modules
+dist
+.DS_Store
+*.swp
+vendor

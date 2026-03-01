@@ -1,0 +1,32 @@
+# 云服务器部署示例：单服务 HTTP 模式
+# 使用方式：在项目根目录执行 docker-compose up -d
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: projects-app:latest
+    container_name: projects-http
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - COZE_PROJECT_ENV=PROD
+      - COZE_PROJECT_TYPE=agent
+      - LOG_LEVEL=INFO
+      # 以下按需取消注释并填写
+      # - PGDATABASE_URL=postgresql://user:password@host:5432/dbname
+      # - COZE_WORKLOAD_IDENTITY_API_KEY=your_key
+      # - COZE_INTEGRATION_MODEL_BASE_URL=your_base_url
+    env_file:
+      - .env
+    # 若使用宿主机 PostgreSQL，确保网络可达（例如同一 compose 中的 postgres 服务）
+    # 健康检查（可选）
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/docs')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
