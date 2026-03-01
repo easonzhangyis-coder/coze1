@@ -4,17 +4,18 @@ FROM python:3.12-slim
 # 设置工作目录
 WORKDIR /app
 
-# 安装系统依赖（按需取消注释，例如 PostgreSQL 客户端、构建依赖）
-# RUN apt-get update && apt-get install -y --no-install-recommends \
-#     gcc libpq-dev \
-#     && rm -rf /var/lib/apt/lists/*
+# 安装系统依赖：部分包（如 cryptography、psycopg、opencv）需编译或系统库
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc g++ libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # 复制依赖文件
 COPY requirements.txt .
 
-# 安装 Python 依赖（使用国内镜像可加速，按需取消下一行注释）
-# RUN pip install --no-cache-dir -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
-RUN pip install --no-cache-dir -r requirements.txt
+# 升级 pip/setuptools，减少元数据与构建错误；使用国内镜像加速并提高成功率
+RUN pip install --no-cache-dir -U pip setuptools wheel \
+    && pip install --no-cache-dir -r requirements.txt \
+    -i https://pypi.tuna.tsinghua.edu.cn/simple --trusted-host pypi.tuna.tsinghua.edu.cn
 
 # 复制项目代码（.dockerignore 会排除不需要的文件）
 COPY config ./config
